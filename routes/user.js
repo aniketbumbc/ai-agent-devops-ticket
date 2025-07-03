@@ -6,8 +6,8 @@ import {
   updateUser,
   logout,
   getUsers,
-} from '../controllers/user';
-import { authenticate } from '../middleware/auth';
+} from '../controllers/user.js';
+import { authenticate } from '../middleware/auth.js';
 
 const router = express.Router();
 
