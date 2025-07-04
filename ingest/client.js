@@ -1,3 +1,8 @@
 import { Inngest } from 'inngest';
+import dotenv from 'dotenv';
+dotenv.config();
 
-export const inngest = new Inngest({ id: 'ticket-system' });
+export const inngest = new Inngest({
+  id: 'ticket-system',
+  eventKey: process.env.INNGEST_EVENT_KEY,
+});

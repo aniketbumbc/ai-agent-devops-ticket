@@ -5,9 +5,9 @@ import { inngest } from '../ingest/client.js';
 
 export const signUp = async (req, res) => {
   const { email, password, skills = [] } = req.body;
-  console.log(req.body);
+
   try {
-    const hashed = bcrypt.hash(password, 5);
+    const hashed = await bcrypt.hash(password, 10);
     const user = await User.create({ email, password: hashed, skills });
 
     await inngest.send({
@@ -102,4 +102,8 @@ export const getUsers = async (req, res) => {
   } catch (error) {
     res.status(500).json({ error: 'get user failed', details: error.message });
   }
+};
+
+export const helloTest = async (req, res) => {
+  return res.status(200).json('hello');
 };

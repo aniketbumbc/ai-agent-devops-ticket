@@ -28,6 +28,7 @@ export const onUserSignup = inngest.createFunction(
           \n
           Thanks for signing up. We're glad to have you onboard!
           `;
+        console.log('Hello onUserSignup');
         await sendMail(user.email, subject, message);
       });
 

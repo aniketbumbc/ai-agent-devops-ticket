@@ -9,10 +9,10 @@ import { onUserSignup } from './ingest/functions/on-signup.js';
 import { onTicketCreated } from './ingest/functions/on-ticket-create.js';
 import dotenv from 'dotenv';
 
-const PORT = process.env.PORT || 5000;
 const app = express();
 dotenv.config();
 
+const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
