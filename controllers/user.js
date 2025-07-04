@@ -4,11 +4,11 @@ import User from '../models/user.model.js';
 import { inngest } from '../ingest/client.js';
 
 export const signUp = async (req, res) => {
-  const { email, password, skills = [] } = req.body;
+  const { email, password, skills = [], role = 'user' } = req.body;
 
   try {
     const hashed = await bcrypt.hash(password, 10);
-    const user = await User.create({ email, password: hashed, skills });
+    const user = await User.create({ email, password: hashed, skills, role });
 
     await inngest.send({
       name: 'user/signup',
@@ -32,7 +32,7 @@ export const login = async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    const user = User.findOne({ email });
+    const user = await User.findOne({ email });
     if (!user) return res.status(401).json({ error: 'User not found' });
 
     const isMatch = await bcrypt.compare(password, user.password);

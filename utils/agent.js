@@ -40,7 +40,7 @@ const analyzeTicket = async (ticket) => {
   
     Analyze the following support ticket and provide a JSON object with
     - summary: A short 1-2 sentence summary of the issue.
-    - priority: "Low | Medium | High | Critical",
+    - priority: "Low | High | Medium",
     - helpfulNotes: helpful context or suggestions.
     - relatedSkills: skills array which assist to solve that issue.
 
@@ -48,7 +48,7 @@ const analyzeTicket = async (ticket) => {
 
     {
         "summary": "Brief summary of the issue",
-        "priority": "Low | Medium | High | Critical",
+        "priority": "Low | High | Medium",
         "notes": "Helpful context or suggestions for resolving the issue",
         "relatedSkills: ["React", "MangoDB"];
     }

@@ -14,6 +14,7 @@ const ticketSchema = new mongoose.Schema({
   deadLine: Date,
   notes: String,
   skills: [String],
+  helpfulNotes: String,
   createdAt: { type: Date, default: Date.now },
 });
 

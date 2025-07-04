@@ -31,12 +31,13 @@ export const onTicketCreated = inngest.createFunction(
 
         if (apiResponse) {
           await Ticket.findByIdAndUpdate(ticket._id, {
-            priority: !['low', 'medium', 'high'].includes(apiResponse.priority)
-              ? 'medium'
+            priority: !['Low', 'Medium', 'High'].includes(apiResponse.priority)
+              ? 'Medium'
               : apiResponse.priority,
-            helpfulNotes: apiResponse.helpfulNotes,
+            description: apiResponse.summary,
+            helpfulNotes: apiResponse.notes,
             status: 'IN_PROGRESS',
-            relatedSKills: apiResponse?.relatedSkills,
+            skills: apiResponse?.relatedSkills,
           });
 
           skills = apiResponse?.relatedSkills;
@@ -49,7 +50,7 @@ export const onTicketCreated = inngest.createFunction(
         let user = await User.findOne({
           role: 'moderator',
           skills: {
-            $eleMatch: {
+            $elemMatch: {
               $regex: relatedSkills.join('|'),
             },
           },
@@ -74,7 +75,8 @@ export const onTicketCreated = inngest.createFunction(
           await sendMail(
             moderator.email,
             'Ticket assigned',
-            `A new ticket is assigned to ${finalTicket.title}`
+            `A new ticket is assigned to ${finalTicket.title}
+            Ticket details: ${JSON.stringify(finalTicket)}`
           );
         }
       });

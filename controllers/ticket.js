@@ -3,16 +3,18 @@ import Ticket from '../models/ticket.js';
 
 export const createTicket = async (req, res) => {
   try {
-    const { title, description } = req.body;
+    const { title, description, priority = 'medium' } = req.body;
     if (!title || !description) {
       return res
         .status(400)
         .json({ message: 'Title and description are required' });
     }
 
-    const newTicket = Ticket.create({
+    const newTicket = await Ticket.create({
       title,
       description,
+      priority,
+      helpfulNotes: '',
       createdBy: req.user._id.toString(),
     });
 
@@ -22,6 +24,7 @@ export const createTicket = async (req, res) => {
         ticketId: (await newTicket)._id.toString(),
         title,
         description,
+        priority,
         createdBy: req.user._id.toString(),
       },
     });
@@ -42,7 +45,7 @@ export const getTickets = async (req, res) => {
     const user = req.user;
     let tickets = [];
     if (user?.role !== 'user') {
-      tickets = Ticket.find({})
+      tickets = await Ticket.find({})
         .populate('assignedTo', ['email', '_id'])
         .sort({ createdAt: -1 });
     } else {
@@ -66,12 +69,12 @@ export const getTicket = async (req, res) => {
     let ticket;
 
     if (user.role !== 'user') {
-      ticket = Ticket.findById(req.params.id).populate('assignedTo', [
+      ticket = await Ticket.findById(req.params.id).populate('assignedTo', [
         'email',
         '_id',
       ]);
     } else {
-      ticket = Ticket.findOne({
+      ticket = await Ticket.findOne({
         createdBy: user._id,
         _id: req.params.id,
       }).select('title description status createdAt');
