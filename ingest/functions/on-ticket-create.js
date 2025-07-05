@@ -36,6 +36,7 @@ export const onTicketCreated = inngest.createFunction(
               : apiResponse.priority,
             description: apiResponse.summary,
             helpfulNotes: apiResponse.notes,
+            suggestions: apiResponse.suggestions,
             status: 'IN_PROGRESS',
             skills: apiResponse?.relatedSkills,
           });

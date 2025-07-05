@@ -15,6 +15,7 @@ export const createTicket = async (req, res) => {
       description,
       priority,
       helpfulNotes: '',
+      suggestions: '',
       createdBy: req.user._id.toString(),
     });
 
@@ -77,12 +78,14 @@ export const getTicket = async (req, res) => {
       ticket = await Ticket.findOne({
         createdBy: user._id,
         _id: req.params.id,
-      }).select('title description status createdAt');
+      }).select('title description status suggestions createdAt');
     }
 
     if (!ticket) {
       return res.status(404).json({ message: 'Ticket not found' });
     }
+
+    return res.status(200).json({ message: 'Ticket found', ticket });
   } catch (error) {
     return res.status(500).json({
       error: 'getTicket fetching ticket failed',

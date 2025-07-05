@@ -17,6 +17,10 @@ const analyzeTicket = async (ticket) => {
     Provide helpful notes for support staff or developers that may assist in resolving the issue.
 
     List relevant technical skills required.
+
+    Provide primary steps or suggestions in short paragraph.
+
+    Suggestion not be same as helpful notes. Suggestion should be more technical related to description and steps to resolve issue.
     
     Important constraints:
     
@@ -32,7 +36,8 @@ const analyzeTicket = async (ticket) => {
     "summary": "Brief summary of the issue",
     "priority": "Low | Medium | High | Critical",
     "notes": "Helpful context or suggestions for resolving the issue",
-    "relatedSkills": "skills that required to solve the issue"
+    "relatedSkills": "skills that required to solve the issue",
+    "suggestions": "give basic steps or suggestion to how to resolve issue not same as helpful notes more details to solving problem"
     }`,
   });
 
@@ -43,6 +48,7 @@ const analyzeTicket = async (ticket) => {
     - priority: "Low | High | Medium",
     - helpfulNotes: helpful context or suggestions.
     - relatedSkills: skills array which assist to solve that issue.
+    - suggestions: short paragraph for basic step to resolve issue or get some idea for moderator.
 
     please find sample output JSON object
 
@@ -51,6 +57,7 @@ const analyzeTicket = async (ticket) => {
         "priority": "Low | High | Medium",
         "notes": "Helpful context or suggestions for resolving the issue",
         "relatedSkills: ["React", "MangoDB"];
+        "suggestions": "basic steps to resolving issue"
     }
 
     ----
