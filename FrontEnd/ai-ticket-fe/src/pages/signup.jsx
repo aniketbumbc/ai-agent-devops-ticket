@@ -1,8 +1,13 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-function Signup() {
-  const [form, setForm] = useState({ email: '', password: '' });
+export default function SignupPage() {
+  const [form, setForm] = useState({
+    email: '',
+    password: '',
+    role: '',
+    skills: '',
+  });
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -26,20 +31,79 @@ function Signup() {
       );
 
       const data = await res.json();
+
       if (res.ok) {
         localStorage.setItem('token', data.token);
         localStorage.setItem('user', JSON.stringify(data.user));
+        navigate('/');
       } else {
-        alert(data.message || 'Signup Failed');
+        alert(data.message || 'Signup failed');
       }
-    } catch (error) {
-      alert('Signup something went wrong');
+    } catch (err) {
+      alert('Something went wrong');
+      console.error(err);
     } finally {
       setLoading(false);
     }
   };
 
-  return <div></div>;
-}
+  return (
+    <div className='min-h-screen flex items-center justify-center bg-base-200'>
+      <div className='card w-full max-w-sm shadow-xl bg-base-100'>
+        <form onSubmit={handleSignup} className='card-body'>
+          <h2 className='card-title justify-center'>Sign Up</h2>
 
-export default Signup;
+          <input
+            type='email'
+            name='email'
+            placeholder='Email'
+            className='input input-bordered'
+            value={form.email}
+            onChange={handleChange}
+            required
+          />
+
+          <input
+            type='password'
+            name='password'
+            placeholder='Password'
+            className='input input-bordered'
+            value={form.password}
+            onChange={handleChange}
+            required
+          />
+
+          <input
+            type='text'
+            name='role'
+            placeholder='Role'
+            className='input input-bordered'
+            value={form.role}
+            onChange={handleChange}
+            required
+          />
+
+          <input
+            type='text'
+            name='skills'
+            placeholder='Skills'
+            className='input input-bordered'
+            value={form.skills}
+            onChange={handleChange}
+            required
+          />
+
+          <div className='form-control mt-4'>
+            <button
+              type='submit'
+              className='btn btn-primary w-full'
+              disabled={loading}
+            >
+              {loading ? 'Signing up...' : 'Sign Up'}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+}

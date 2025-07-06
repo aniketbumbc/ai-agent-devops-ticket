@@ -1,12 +1,13 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import './index.css';
-import { BrowserRouter, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import CheckAuth from './components/check-auth';
 import Ticket from './pages/ticket';
 import Login from './pages/login';
 import Signup from './pages/signup';
 import Admin from './pages/admin';
+import Tickets from './pages/tickets';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -15,8 +16,8 @@ createRoot(document.getElementById('root')).render(
         <Route
           path='/'
           element={
-            <CheckAuth protected={true}>
-              <Ticket />
+            <CheckAuth protectedRoute={true}>
+              <Tickets />
             </CheckAuth>
           }
         />
@@ -24,7 +25,7 @@ createRoot(document.getElementById('root')).render(
         <Route
           path='/tickets/:id'
           element={
-            <CheckAuth protected={true}>
+            <CheckAuth protectedRoute={true}>
               <Ticket />
             </CheckAuth>
           }
@@ -33,7 +34,7 @@ createRoot(document.getElementById('root')).render(
         <Route
           path='/login'
           element={
-            <CheckAuth protected={false}>
+            <CheckAuth protectedRoute={false}>
               <Login />
             </CheckAuth>
           }
@@ -42,7 +43,7 @@ createRoot(document.getElementById('root')).render(
         <Route
           path='/signup'
           element={
-            <CheckAuth protected={false}>
+            <CheckAuth protectedRoute={false}>
               <Signup />
             </CheckAuth>
           }
@@ -51,7 +52,7 @@ createRoot(document.getElementById('root')).render(
         <Route
           path='/admin'
           element={
-            <CheckAuth protected={true}>
+            <CheckAuth protectedRoute={true}>
               <Admin />
             </CheckAuth>
           }
@@ -60,8 +61,8 @@ createRoot(document.getElementById('root')).render(
         <Route
           path='/'
           element={
-            <CheckAuth protected={true}>
-              <Ticket />
+            <CheckAuth protectedRoute={true}>
+              <Tickets />
             </CheckAuth>
           }
         />

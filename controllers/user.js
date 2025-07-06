@@ -75,17 +75,18 @@ export const updateUser = async (req, res) => {
     if (req.user?.role !== 'admin') {
       return res.status(403).json({ error: 'Forbidden' });
     }
-
     const user = await User.findOne({ email });
 
-    if (user) {
+    if (!user) {
       return res.status(401).json({ error: 'user not found' });
     }
 
     await User.updateOne(
       { email },
-      { skills: skills.length ? skills : user.skills, role }
+      { skills: skills.length ? [...skills] : user.skills, role }
     );
+
+    return res.status(200).json({ message: 'Update user successfully', user });
   } catch (error) {
     res.status(500).json({ error: 'Update failed', details: error.message });
   }

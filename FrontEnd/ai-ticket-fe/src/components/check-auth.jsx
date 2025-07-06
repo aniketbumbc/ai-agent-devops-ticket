@@ -1,30 +1,33 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 function CheckAuth({ children, protectedRoute }) {
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(true);
+  const location = useLocation();
+  const [allowed, setAllowed] = useState(false);
 
   useEffect(() => {
     const token = localStorage.getItem('token');
 
-    if (protectedRoute) {
-      if (!token) {
-        navigate('/login');
-      } else {
-        setLoading(false);
-      }
-    } else {
-      if (token) {
-        navigate('/');
-      } else {
-        setLoading(false);
-      }
+    // Protected route, but no token → redirect to login
+    if (protectedRoute && !token) {
+      navigate('/login', { replace: true, state: { from: location } });
+      return;
     }
-  }, [navigate, protectedRoute]);
 
-  if (loading) {
-    return <div>Loading.....</div>;
+    // Public route, but already logged in → redirect to home
+    if (!protectedRoute && token) {
+      navigate('/', { replace: true });
+      return;
+    }
+
+    // Otherwise, access is allowed
+    setAllowed(true);
+  }, [navigate, protectedRoute, location]);
+
+  // Wait until auth decision is made
+  if (!allowed) {
+    return <div>Loading...</div>;
   }
 
   return children;
